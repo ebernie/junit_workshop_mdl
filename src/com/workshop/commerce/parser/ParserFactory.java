@@ -8,7 +8,7 @@ import com.workshop.commerce.payload.Payload;
 
 public class ParserFactory {
 
-	private static final Map<Payload.Type, Parser> PARSERS = new ConcurrentHashMap<Payload.Type, Parser>();
+	private static Map<Payload.Type, Parser> PARSERS;
 
 	public static final <T>Parser<T> getParser(Payload.Type pt, Class<T> classOfT) {
 		Parser<T>  parsr = PARSERS.get(pt);
@@ -19,6 +19,9 @@ public class ParserFactory {
 	}
 
 	public static final void addParser(Parser parser) {
+		if (PARSERS == null ) {
+			PARSERS = new ConcurrentHashMap<Payload.Type, Parser>();
+		}
 		PARSERS.put(parser.getPayloadType(), parser);
 	}
 

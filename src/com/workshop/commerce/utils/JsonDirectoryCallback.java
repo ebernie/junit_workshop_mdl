@@ -9,12 +9,9 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.workshop.commerce.model.Order;
-import com.workshop.commerce.parser.Parser;
-import com.workshop.commerce.parser.ParserFactory;
 import com.workshop.commerce.payload.JsonPayload;
 import com.workshop.commerce.payload.Payload;
-import com.workshop.commerce.processor.OrderProcessor;
+import com.workshop.commerce.processor.ProcessorFactory;
 
 public class JsonDirectoryCallback implements DirectoryChangeCallback {
 	
@@ -26,10 +23,8 @@ public class JsonDirectoryCallback implements DirectoryChangeCallback {
 		try {
 			json = readFromFile(file);
 			Payload jsonPayload = new JsonPayload(json);
-			Parser<Order> orderParser = ParserFactory.getParser(
-					jsonPayload.getType(), Order.class);
-			OrderProcessor processor = new OrderProcessor(orderParser, jsonPayload);
-			processor.createOrder();
+			ProcessorFactory.getInstance().getProcessor(jsonPayload).doWork();
+			file.delete();
 		} catch (Exception e) {
 			LOG.error("Failure reading file " + file.getName(), e);
 		}

@@ -6,9 +6,10 @@ public class JsonPayload implements Payload {
 	
 	public JsonPayload(String json) {
 		super();
+		//TODO: should probably try to determine if this is JSON and not other type of data
 		this.json = json;
 	}
-
+	
 	@Override
 	public Type getType() {
 		return Payload.Type.JSON;

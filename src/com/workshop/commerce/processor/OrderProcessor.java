@@ -3,6 +3,9 @@ package com.workshop.commerce.processor;
 import java.sql.SQLException;
 import java.util.Calendar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.workshop.commerce.ex.InvalidOrderException;
@@ -12,7 +15,9 @@ import com.workshop.commerce.parser.Parser;
 import com.workshop.commerce.payload.Payload;
 import com.workshop.commerce.utils.Database;
 
-public class OrderProcessor {
+public class OrderProcessor implements Processor {
+	
+	private final static Logger LOG = LoggerFactory.getLogger(OrderProcessor.class);
 	
 	private final Order order;
 	
@@ -37,20 +42,21 @@ public class OrderProcessor {
 		}
 	}
 	
-	public void createOrder() throws SQLException {
-		// persist order somewhere
-		Dao<Order, String> orderDao = DaoManager.createDao(this.database.getConnection(), Order.class);
-		orderDao.update(this.order);
-	}
-	
-	public void updateOrder(Order order) throws SQLException {
-		Dao<Order, String> orderDao = DaoManager.createDao(this.database.getConnection(), Order.class);
-		orderDao.update(order);
-	}
-	
 	public Order findOrderById(String orderId) throws SQLException {
 		Dao<Order, String> orderDao = DaoManager.createDao(this.database.getConnection(), Order.class);
 		return orderDao.queryForId(orderId);
+	}
+
+	@Override
+	public void doWork() {
+		Dao<Order, String> orderDao;
+		try {
+			orderDao = DaoManager.createDao(this.database.getConnection(), Order.class);
+			orderDao.createOrUpdate(this.order);
+			LOG.debug("Created order " + order);
+		} catch (SQLException e) {
+			LOG.error("Can't create order ", e);
+		}
 	}
 
 }
