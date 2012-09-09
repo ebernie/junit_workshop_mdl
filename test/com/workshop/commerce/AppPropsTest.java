@@ -58,4 +58,12 @@ public class AppPropsTest {
 		assertEquals("jdbc:hsqldb:mem:demo", props.getProp("db.connection"));
 	}
 	
+	@Test
+	public void testGetAppProp() {
+		AppProps props = AppProps.getInstance();
+		assertTrue(appPropFile.exists());
+		props.load(appPropFile);
+		assertEquals("/home/ebernie/json", props.getProp("json.dir"));
+	}
+	
 }
