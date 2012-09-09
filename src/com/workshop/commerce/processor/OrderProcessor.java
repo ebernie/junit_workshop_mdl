@@ -27,10 +27,14 @@ public class OrderProcessor implements Processor {
 		this.order = parser.parse(payload);
 	}
 	
+	public OrderProcessor(Order order) {
+		this.order = order;
+	}
+	
 	public void setDatabase(Database database) {
 		this.database = database;
 	}
-
+	
 	public void validateOrder() {
 		// do simple validation
 		if (this.order.getOrderDate().after(Calendar.getInstance().getTime())) {

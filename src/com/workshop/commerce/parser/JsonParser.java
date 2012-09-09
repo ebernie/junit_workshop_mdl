@@ -18,6 +18,7 @@ public class JsonParser<T> implements Parser<T>{
 		return Payload.Type.JSON;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T parse(Payload payload) {
 		LOG.debug("Parsing " + payload.getPayload());

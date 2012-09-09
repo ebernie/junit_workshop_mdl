@@ -12,8 +12,7 @@ public class XmlParser<T> implements Parser<T> {
 
 	@Override
 	public T parse(Payload payload) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Unimplemented");
 	}
 
 }

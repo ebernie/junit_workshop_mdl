@@ -1,6 +1,7 @@
 package com.workshop.commerce;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Timer;
 
@@ -19,13 +20,12 @@ public class App {
 
 	private static final Logger LOG = LoggerFactory.getLogger(App.class);
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IllegalArgumentException, IOException {
 		LOG.info("Workshop demo app started");
 		// setup
-		ParserFactory.addParser(new JsonParser<Order>());
-		org.hsqldb.util.DatabaseManagerSwing.main(new String[] {
-				"--url",  "jdbc:hsqldb:mem:demo", "--noexit"
-		});
+		ParserFactory.INSTANCE.addParser(new JsonParser<Order>());
+		org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url",
+				"jdbc:hsqldb:mem:demo", "--noexit" });
 
 		// setup directory watcher
 		DirectoryWatcher directoryWatcher = new DirectoryWatcher(new File(
@@ -34,6 +34,8 @@ public class App {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(directoryWatcher, Calendar.getInstance()
 				.getTime(), REPEAT);
+		System.in.read();
+		System.exit(0);
 	}
 
 }

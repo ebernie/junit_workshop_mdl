@@ -23,7 +23,7 @@ public class JsonDirectoryCallback implements DirectoryChangeCallback {
 		try {
 			json = readFromFile(file);
 			Payload jsonPayload = new JsonPayload(json);
-			ProcessorFactory.getInstance().getProcessor(jsonPayload).doWork();
+			ProcessorFactory.INSTANCE.getProcessor(jsonPayload).doWork();
 			file.delete();
 		} catch (Exception e) {
 			LOG.error("Failure reading file " + file.getName(), e);

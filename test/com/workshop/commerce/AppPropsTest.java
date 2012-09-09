@@ -48,16 +48,14 @@ public class AppPropsTest {
 	}
 
 	@Test
-	public void testGetProp() {
+	public void testGetDbProp() {
 		AppProps props = AppProps.getInstance();
 		assertTrue(dbPropFile.exists());
-		assertTrue(appPropFile.exists());
-		props.load(dbPropFile, appPropFile);
+		props.load(dbPropFile);
 		assertEquals("org.hsqldb.jdbcDriver", props.getProp("db.driver"));
 		assertEquals("sa", props.getProp("db.user"));
 		assertEquals("", props.getProp("db.password"));
 		assertEquals("jdbc:hsqldb:mem:demo", props.getProp("db.connection"));
-		assertEquals("~/workshop/json", props.getProp("json.dir"));
 	}
-
+	
 }

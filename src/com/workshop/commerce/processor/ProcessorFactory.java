@@ -7,28 +7,15 @@ import com.workshop.commerce.parser.ParserFactory;
 import com.workshop.commerce.payload.Payload;
 import com.workshop.commerce.utils.Database;
 
-public class ProcessorFactory {
+public enum ProcessorFactory {
 	
-	private static ProcessorFactory me;
-	
-	private ProcessorFactory() {
-		
-	}
-	
-	public static synchronized ProcessorFactory getInstance() {
-		
-		if (me == null) {
-			me = new ProcessorFactory();
-		}
-		
-		return me;
-	}
+	INSTANCE;
 	
 	public Processor getProcessor(Payload payload) {
 		if (Payload.Type.JSON.equals(payload.getType())){
 			String json = (String) payload.getPayload();
 			if (json != null && json.contains("orderId")) {
-				Parser<Order> parser = ParserFactory.getParser(Payload.Type.JSON, Order.class);
+				Parser<Order> parser = ParserFactory.INSTANCE.getParser(Payload.Type.JSON, Order.class);
 				OrderProcessor processor = new OrderProcessor(parser,payload);
 				processor.setDatabase(Database.getInstance());
 				return processor;
@@ -39,6 +26,16 @@ public class ProcessorFactory {
 			throw new InvalidDataTypeException("Unimplemented");
 		} else {
 			throw new InvalidDataTypeException("Unsupported payload " + payload.getType().name());
+		}
+	}
+	
+	public Processor getProcessor(Object obj) {
+		if (obj instanceof Order) {
+			OrderProcessor processor = new OrderProcessor((Order)obj);
+			processor.setDatabase(Database.getInstance());
+			return processor;
+		} else {
+			throw new InvalidDataTypeException("Unrecognized  class type");
 		}
 	}
 	
