@@ -30,7 +30,7 @@ public class AppPropsTest {
 		dbwriter.write("db.password=");
 		dbwriter.newLine();
 		dbwriter.write("db.connection=jdbc:hsqldb:mem:demo");
-		appwriter.write("json.dir=~/workshop/json");
+		appwriter.write("json.dir=/home/ebernie/json");
 
 		dbwriter.flush();
 		appwriter.flush();
