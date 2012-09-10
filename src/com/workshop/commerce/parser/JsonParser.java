@@ -8,9 +8,8 @@ import com.workshop.commerce.ex.InvalidDataTypeException;
 import com.workshop.commerce.model.Order;
 import com.workshop.commerce.payload.Payload;
 
+public class JsonParser<T> implements Parser<T> {
 
-public class JsonParser<T> implements Parser<T>{
-	
 	private static final Logger LOG = LoggerFactory.getLogger(JsonParser.class);
 
 	@Override
@@ -23,7 +22,8 @@ public class JsonParser<T> implements Parser<T>{
 	public T parse(Payload payload) {
 		LOG.debug("Parsing " + payload.getPayload());
 		if (Payload.Type.JSON != payload.getType()) {
-			throw new InvalidDataTypeException("Unable to process type " + payload.getType().name());
+			throw new InvalidDataTypeException("Unable to process type "
+					+ payload.getType().name());
 		}
 		String jsonPayload = (String) payload.getPayload();
 		Gson gson = new Gson();
@@ -34,7 +34,5 @@ public class JsonParser<T> implements Parser<T>{
 		LOG.debug("Parsed result: " + order);
 		return (T) order;
 	}
-
-	
 
 }
