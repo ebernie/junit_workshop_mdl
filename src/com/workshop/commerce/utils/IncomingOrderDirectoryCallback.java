@@ -13,16 +13,16 @@ import com.workshop.commerce.payload.JsonPayload;
 import com.workshop.commerce.payload.Payload;
 import com.workshop.commerce.processor.ProcessorFactory;
 
-public class JsonDirectoryCallback implements DirectoryChangeCallback {
+public class IncomingOrderDirectoryCallback implements DirectoryChangeCallback {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(JsonDirectoryCallback.class);
+	private static final Logger LOG = LoggerFactory.getLogger(IncomingOrderDirectoryCallback.class);
 	
 	@Override
 	public void directoryChanged(File file) {
-		String json;
+		String fileContent;
 		try {
-			json = readFromFile(file);
-			Payload jsonPayload = new JsonPayload(json);
+			fileContent = readFromFile(file);
+			Payload jsonPayload = new JsonPayload(fileContent);
 			ProcessorFactory.INSTANCE.getProcessor(jsonPayload).doWork();
 			file.delete();
 		} catch (Exception e) {
