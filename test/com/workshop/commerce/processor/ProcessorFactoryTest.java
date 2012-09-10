@@ -7,7 +7,6 @@ import static org.mockito.Matchers.eq;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +32,6 @@ public class ProcessorFactoryTest {
 	@Mock
 	private Database database;
 
-
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
@@ -45,10 +43,6 @@ public class ProcessorFactoryTest {
 		Mockito.when(
 				DaoManager.createDao(any(ConnectionSource.class),
 						eq(Order.class))).thenReturn(orderDao);
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test
