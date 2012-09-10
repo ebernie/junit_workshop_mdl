@@ -69,5 +69,27 @@ public class Order {
 		return "Order [amount=" + amount + ", orderDate=" + orderDate
 				+ ", merchantId=" + merchantId + ", orderId=" + orderId + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (orderId ^ (orderId >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (orderId != other.orderId)
+			return false;
+		return true;
+	}
 	
 }

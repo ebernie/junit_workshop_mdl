@@ -41,7 +41,19 @@ public class JsonParserTest {
 		assertTrue(sampleOrder.getOrderId() == order.getOrderId());
 		assertTrue(sampleOrder.getMerchantId() == order.getMerchantId());
 		assertTrue(sampleOrder.getAmount() == order.getAmount());
-		assertEquals(sampleOrder.getOrderDate(), order.getOrderDate());
+		
+		Calendar sampleOrderCal = Calendar.getInstance();
+		sampleOrderCal.setTimeInMillis(sampleOrder.getOrderDate().getTime());
+		Calendar orderCal = Calendar.getInstance();
+		orderCal.setTimeInMillis(order.getOrderDate().getTime());
+		
+		assertEquals(sampleOrderCal.get(Calendar.YEAR), orderCal.get(Calendar.YEAR));
+		assertEquals(sampleOrderCal.get(Calendar.MONTH), orderCal.get(Calendar.MONTH));
+		assertEquals(sampleOrderCal.get(Calendar.DATE), orderCal.get(Calendar.DATE));
+		assertEquals(sampleOrderCal.get(Calendar.HOUR), orderCal.get(Calendar.HOUR));
+		assertEquals(sampleOrderCal.get(Calendar.MINUTE), orderCal.get(Calendar.MINUTE));
+		assertEquals(sampleOrderCal.get(Calendar.SECOND), orderCal.get(Calendar.SECOND));
+		
 		assertEquals(sampleOrder, order);
 	}
 
