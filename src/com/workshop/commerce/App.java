@@ -12,7 +12,7 @@ import com.workshop.commerce.model.Order;
 import com.workshop.commerce.parser.JsonParser;
 import com.workshop.commerce.parser.ParserFactory;
 import com.workshop.commerce.utils.DirectoryWatcher;
-import com.workshop.commerce.utils.JsonDirectoryCallback;
+import com.workshop.commerce.utils.IncomingOrderDirectoryCallback;
 
 public class App {
 
@@ -30,7 +30,7 @@ public class App {
 		// setup directory watcher
 		DirectoryWatcher directoryWatcher = new DirectoryWatcher(new File(
 				AppProps.getInstance().getProp(Constants.PROP_APP_JSON_DIR)),
-				new JsonDirectoryCallback());
+				new IncomingOrderDirectoryCallback());
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(directoryWatcher, Calendar.getInstance()
 				.getTime(), REPEAT);
