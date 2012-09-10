@@ -27,17 +27,9 @@ public class OrderProcessorTest {
 	@Mock
 	private Dao orderDao;
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testCreateOrderViaFactory() throws Exception {
+	public void testCreateOrder() throws Exception {
 		//define behavior for our orderDao mock
 		when(orderDao.createOrUpdate(any(Order.class))).thenReturn(
 				new CreateOrUpdateStatus(true, false, 1));
@@ -53,8 +45,4 @@ public class OrderProcessorTest {
 		assertTrue(order.getProcessedDate().after(order.getOrderDate()));
 	}
 	
-	public void testCreateOrder() {
-		
-	}
-
 }
