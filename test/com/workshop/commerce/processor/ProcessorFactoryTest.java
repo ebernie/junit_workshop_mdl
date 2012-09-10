@@ -1,8 +1,7 @@
 package com.workshop.commerce.processor;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 
 import java.sql.SQLException;
 import java.util.Date;
