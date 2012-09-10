@@ -15,20 +15,23 @@ import com.workshop.commerce.payload.Payload;
 import com.workshop.commerce.utils.Database;
 
 public enum ProcessorFactory {
-	
+
 	INSTANCE;
-	
-	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(ProcessorFactory.class);
-	
+
+	private static final Logger LOG = org.slf4j.LoggerFactory
+			.getLogger(ProcessorFactory.class);
+
 	public Processor getProcessor(Payload payload) {
-		if (Payload.Type.JSON.equals(payload.getType())){
+		if (Payload.Type.JSON.equals(payload.getType())) {
 			String json = (String) payload.getPayload();
 			if (json != null && json.contains("orderId")) {
-				Parser<Order> parser = ParserFactory.INSTANCE.getParser(Payload.Type.JSON, Order.class);
-				OrderProcessor processor = new OrderProcessor(parser,payload);
+				Parser<Order> parser = ParserFactory.INSTANCE.getParser(
+						Payload.Type.JSON, Order.class);
+				OrderProcessor processor = new OrderProcessor(parser, payload);
 				Dao<Order, String> dao;
 				try {
-					dao = DaoManager.createDao(Database.getInstance().getConnection(), Order.class);
+					dao = DaoManager.createDao(Database.getInstance()
+							.getConnection(), Order.class);
 					processor.setOrderDao(dao);
 					return processor;
 				} catch (SQLException e) {
@@ -41,16 +44,18 @@ public enum ProcessorFactory {
 		} else if (Payload.Type.XML.equals(payload.getType())) {
 			throw new ProcessorException("Unimplemented");
 		} else {
-			throw new ProcessorException("Unsupported payload " + payload.getType().name());
+			throw new ProcessorException("Unsupported payload "
+					+ payload.getType().name());
 		}
 	}
-	
+
 	public Processor getProcessor(Object obj) {
 		if (obj instanceof Order) {
-			OrderProcessor processor = new OrderProcessor((Order)obj);
+			OrderProcessor processor = new OrderProcessor((Order) obj);
 			Dao<Order, String> dao;
 			try {
-				dao = DaoManager.createDao(Database.getInstance().getConnection(), Order.class);
+				dao = DaoManager.createDao(Database.getInstance()
+						.getConnection(), Order.class);
 				processor.setOrderDao(dao);
 				return processor;
 			} catch (SQLException e) {
@@ -61,5 +66,5 @@ public enum ProcessorFactory {
 			throw new ProcessorException("Unrecognized  class type");
 		}
 	}
-	
+
 }

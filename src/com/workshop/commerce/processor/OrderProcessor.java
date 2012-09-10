@@ -2,11 +2,13 @@ package com.workshop.commerce.processor;
 
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.Dao.CreateOrUpdateStatus;
 import com.workshop.commerce.ex.InvalidOrderException;
 import com.workshop.commerce.model.Merchant;
 import com.workshop.commerce.model.Order;
@@ -52,13 +54,24 @@ public class OrderProcessor implements Processor {
 	}
 
 	@Override
-	public void doWork() {
+	public WorkResult doWork() {
 		try {
 			validateOrder();
-			this.orderDao.createOrUpdate(this.order);
+			this.order.setProcessedDate(new Date());
+			CreateOrUpdateStatus status = this.orderDao
+					.createOrUpdate(this.order);
 			LOG.debug("Created order " + order);
+			if (status.isCreated()) {
+				return new WorkResult(true, null, WorkResult.ErrCode.NO_ERROR);
+			} else {
+				return new WorkResult(false,
+						"Failed to create order: " + order,
+						WorkResult.ErrCode.UNKNOWN_ERROR);
+			}
 		} catch (SQLException e) {
 			LOG.error("Can't create order ", e);
+			return new WorkResult(false, "Failed to create order: " + order,
+					WorkResult.ErrCode.UNKNOWN_ERROR);
 		}
 	}
 

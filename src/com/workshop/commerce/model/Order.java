@@ -5,23 +5,25 @@ import java.util.Date;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName="orders")
+@DatabaseTable(tableName = "orders")
 public class Order {
-	
+
 	@DatabaseField(id = true)
 	private long orderId;
-	
+
 	@DatabaseField
 	private int amount;
-	
+
 	@DatabaseField
 	private Date orderDate;
-	
+
 	@DatabaseField
 	private long merchantId;
-	
+
+	private Date processedDate;
+
 	public Order() {
-		//required by ORMLite
+		// required by ORMLite
 	}
 
 	public Order(int amount, Date orderDate, long merchantId, long orderId) {
@@ -30,6 +32,14 @@ public class Order {
 		this.orderDate = orderDate;
 		this.merchantId = merchantId;
 		this.orderId = orderId;
+	}
+
+	public Date getProcessedDate() {
+		return processedDate;
+	}
+
+	public void setProcessedDate(Date processedDate) {
+		this.processedDate = processedDate;
 	}
 
 	public int getAmount() {
@@ -47,7 +57,7 @@ public class Order {
 	public long getOrderId() {
 		return orderId;
 	}
-	
+
 	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
@@ -66,8 +76,9 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [amount=" + amount + ", orderDate=" + orderDate
-				+ ", merchantId=" + merchantId + ", orderId=" + orderId + "]";
+		return "Order [orderId=" + orderId + ", amount=" + amount
+				+ ", orderDate=" + orderDate + ", merchantId=" + merchantId
+				+ ", processedDate=" + processedDate + "]";
 	}
 
 	@Override
@@ -91,5 +102,5 @@ public class Order {
 			return false;
 		return true;
 	}
-	
+
 }
