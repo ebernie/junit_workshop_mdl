@@ -59,7 +59,6 @@ public class OrderProcessorTest {
 		Order order = new Order(100, new Date(), 1001l, 2010l);
 		OrderProcessor orderProcessor = (OrderProcessor) ProcessorFactory.INSTANCE
 				.getProcessor(order);
-		orderProcessor.setOrderDao(orderDao);
 		assertNull(order.getProcessedDate());
 		// do work, verify result
 		WorkResult result = orderProcessor.doWork();

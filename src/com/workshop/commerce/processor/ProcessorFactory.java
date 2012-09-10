@@ -27,12 +27,11 @@ public enum ProcessorFactory {
 			if (json != null && json.contains("orderId")) {
 				Parser<Order> parser = ParserFactory.INSTANCE.getParser(
 						Payload.Type.JSON, Order.class);
-				OrderProcessor processor = new OrderProcessor(parser, payload);
 				Dao<Order, String> dao;
 				try {
 					dao = DaoManager.createDao(Database.getInstance()
 							.getConnection(), Order.class);
-					processor.setOrderDao(dao);
+					OrderProcessor processor = new OrderProcessor(parser, payload, dao);
 					return processor;
 				} catch (SQLException e) {
 					LOG.error("Couldn't create database: ", e);
@@ -51,12 +50,11 @@ public enum ProcessorFactory {
 
 	public Processor getProcessor(Object obj) {
 		if (obj instanceof Order) {
-			OrderProcessor processor = new OrderProcessor((Order) obj);
 			Dao<Order, String> dao;
 			try {
 				dao = DaoManager.createDao(Database.getInstance()
 						.getConnection(), Order.class);
-				processor.setOrderDao(dao);
+				OrderProcessor processor = new OrderProcessor((Order) obj, dao);
 				return processor;
 			} catch (SQLException e) {
 				LOG.error("Couldn't create database: ", e);

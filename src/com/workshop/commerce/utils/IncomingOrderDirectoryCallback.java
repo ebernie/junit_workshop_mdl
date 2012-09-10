@@ -22,8 +22,8 @@ public class IncomingOrderDirectoryCallback implements DirectoryChangeCallback {
 		String fileContent;
 		try {
 			fileContent = readFromFile(file);
-			Payload jsonPayload = new JsonPayload(fileContent);
-			ProcessorFactory.INSTANCE.getProcessor(jsonPayload).doWork();
+			Payload payload = new JsonPayload(fileContent);
+			ProcessorFactory.INSTANCE.getProcessor(payload).doWork();
 			file.delete();
 		} catch (Exception e) {
 			LOG.error("Failure reading file " + file.getName(), e);

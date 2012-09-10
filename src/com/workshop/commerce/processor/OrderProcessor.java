@@ -22,19 +22,18 @@ public class OrderProcessor implements Processor {
 
 	private final Order order;
 
-	private Dao<Order, String> orderDao;
+	private final Dao<Order, String> orderDao;
 
-	public OrderProcessor(Parser<Order> parser, Payload payload) {
+	public OrderProcessor(Parser<Order> parser, Payload payload, Dao<Order,String> dao) {
 		this.order = parser.parse(payload);
+		this.orderDao = dao;
 	}
 
-	public OrderProcessor(Order order) {
+	public OrderProcessor(Order order, Dao<Order,String> dao) {
 		this.order = order;
+		this.orderDao = dao;
 	}
 
-	public void setOrderDao(Dao<Order, String> orderDao) {
-		this.orderDao = orderDao;
-	}
 
 	public void validateOrder() {
 		// do simple validation
