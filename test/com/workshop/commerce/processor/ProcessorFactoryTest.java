@@ -46,7 +46,7 @@ public class ProcessorFactoryTest {
 	}
 
 	@Test
-	public void testGetJsonProcessor() throws SQLException {
+	public void testGetOrderProcessor() throws SQLException {
 		Order order = new Order(100, new Date(), 1001l, 2010l);
 		Processor orderProcessor = ProcessorFactory.INSTANCE
 				.getProcessor(order);
