@@ -72,7 +72,7 @@ public class JsonParserTest {
 	}
 	
 	@Test(expected=InvalidDataTypeException.class)
-	public void testParse_InvalidDataType() {
+	public void testParse_shouldNotParseInvalidDataType() {
 		Date date = new Date();
 		Order sampleOrder = new Order(100, date, 1001l, 2001l);
 		Gson gson = new Gson();
