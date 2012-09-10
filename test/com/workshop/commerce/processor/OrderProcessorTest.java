@@ -51,9 +51,6 @@ public class OrderProcessorTest {
 		assertNull(result.getErrMsg());
 		assertNotNull(order.getProcessedDate());
 		assertTrue(order.getProcessedDate().after(order.getOrderDate()));
-
-		// to prove nothing was saved, we query for the object
-		assertTrue(orderDao.queryForMatching(order).isEmpty());
 	}
 	
 	public void testCreateOrder() {
